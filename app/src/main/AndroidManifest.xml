@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.charlesanderson.shoppa">
+
     <uses-permission android:name="android.permission.INTERNET" />
-e
+    e
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,14 +22,17 @@ e
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:host="www.example.com"
-                    android:scheme="https"
-                    android:path="/my_redirect" />
+                <data
+                    android:host="www.example.com"
+                    android:path="/my_redirect"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
+        <activity android:name=".TabActivity"></activity>
     </application>
 
 </manifest>

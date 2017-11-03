@@ -5,9 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -47,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private ViewPager viewPager;
-    private TabLayout tabLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,14 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ListFragment fragment = new ListFragment();
-        fragmentManager.beginTransaction().add(R.id.list_fragment, fragment).commit();
-        /*
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        MyFragmentPagerAdapter fragmentPagerAdapter = new MyFragmentPagerAdapter(this, getSupportFragmentManager());
-        viewPager.setAdapter(fragmentPagerAdapter);
-        tabLayout = (TabLayout) findViewById(R.id.tablayout);
-        tabLayout.setupWithViewPager(viewPager);
-        */
+        fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
+
     }
 
     @Override
@@ -164,4 +153,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void startTabActivity() {
+        Intent intent = new Intent(this, TabActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -30,7 +30,7 @@ public class DealFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_deals, container, false);
         ArrayList<String> titleList = new ArrayList<>();
         for(int i=0; i<10; i++ ) {
-            titleList.add("stuff "+i);
+            titleList.add("deal "+i);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, titleList);
         ListView listView = (ListView) view.findViewById(R.id.listView);
