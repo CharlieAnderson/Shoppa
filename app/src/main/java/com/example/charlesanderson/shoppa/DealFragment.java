@@ -27,7 +27,7 @@ public class DealFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_deals, container, false);
+        View view = inflater.inflate(R.layout.fragment_deal, container, false);
         ArrayList<String> titleList = new ArrayList<>();
         for(int i=0; i<10; i++ ) {
             titleList.add("deal "+i);

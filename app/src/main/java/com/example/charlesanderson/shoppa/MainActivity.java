@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -28,21 +29,13 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String AUTH_URL =
-            "https://www.reddit.com/api/v1/authorize.compact?client_id=%s" +
-                    "&response_type=code&state=%s&redirect_uri=%s&" +
-                    "duration=permanent&scope=identity";
-
+    private static final String AUTH_URL =  "https://www.reddit.com/api/v1/authorize.compact?client_id=%s" +
+                                            "&response_type=code&state=%s&redirect_uri=%s&" +
+                                            "duration=permanent&scope=identity";
     private static final String CLIENT_ID = "ABCDEFGHIJKLM012345-AA";
-
-    private static final String REDIRECT_URI =
-            "https://www.example.com/my_redirect";
-
+    private static final String REDIRECT_URI = "https://www.example.com/my_redirect";
     private static final String STATE = "MY_RANDOM_STRING_1";
-
-    private static final String ACCESS_TOKEN_URL =
-            "https://www.reddit.com/api/v1/access_token";
-
+    private static final String ACCESS_TOKEN_URL = "https://www.reddit.com/api/v1/access_token";
     private static final String TAG = "MainActivity";
 
     @Override
@@ -58,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("Shoppa");
 
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ListFragment fragment = new ListFragment();
@@ -112,10 +108,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-        for reddit api
-        uses okhttp for oauth
-     */
+    // use okhttp for reddit oauth
     private void getAccessToken(String code) {
         OkHttpClient client = new OkHttpClient();
         String authString = CLIENT_ID + ":";

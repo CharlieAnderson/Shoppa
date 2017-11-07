@@ -3,14 +3,14 @@ package com.example.charlesanderson.shoppa;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class ListFragment extends Fragment {
 
-
+    private List<Post> posts;
     public ListFragment() {
         // Required empty public constructor
     }
@@ -30,20 +30,30 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        ArrayList<String> titleList = new ArrayList<>();
-        for(int i=0; i<10; i++ ) {
-            titleList.add("stuff "+i);
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, titleList);
-        ListView listView = (ListView) view.findViewById(R.id.mainListView);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        initializeData();
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(posts);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setOnClickListener(new RecyclerView.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onClick(View v) {
+                System.out.println("BLARG");
                 ((MainActivity)getActivity()).startTabActivity();
             }
         });
         return view;
     }
 
+    private void initializeData() {
+        posts = new ArrayList<>();
+        posts.add(new Post("good deal on shoes", "5", android.R.drawable.ic_menu_week));
+        posts.add(new Post("50% off stuff", "21", android.R.drawable.ic_dialog_map));
+        posts.add(new Post("free shipping at nordstrom", "0", android.R.drawable.ic_menu_save));
+        posts.add(new Post("good deal on shoes", "5", android.R.drawable.ic_menu_week));
+        posts.add(new Post("50% off stuff", "21", android.R.drawable.ic_dialog_map));
+        posts.add(new Post("free shipping at nordstrom", "0", android.R.drawable.ic_menu_save));
+    }
 }
