@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.PostViewHolder>{
 
     List<Post> posts;
+    Context context;
     RecyclerViewAdapter(List<Post> posts) {
         this.posts = posts;
     }
@@ -25,6 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public RecyclerViewAdapter.PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        this.context = parent.getContext();
         PostViewHolder viewHolder = new PostViewHolder(view);
         return viewHolder;
     }
@@ -32,8 +36,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.PostViewHolder viewHolder, int position) {
         viewHolder.titleView.setText(posts.get(position).title);
-        viewHolder.commentsView.setText(posts.get(position).comments+" comments");
-        viewHolder.imageView.setImageResource(posts.get(position).drawableId);
+        String commentsText = posts.get(position).comments+context.getString(R.string.comments);
+        viewHolder.commentsView.setText(commentsText);
+        if(!posts.get(position).imgUrl.equals(""))
+            Picasso.with(context).load(posts.get(position).imgUrl).into(viewHolder.imageView);
     }
 
     @Override
@@ -62,7 +68,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
-                    ((MainActivity)context).startTabActivity();
+                    int position = getAdapterPosition();
+                    ((MainActivity)context).startTabActivity(position);
                 }
             });
         }

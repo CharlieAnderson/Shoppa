@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,33 +31,41 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        initializeData();
+        initializeData(((MainActivity)getActivity()).getJsonData());
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(posts);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setOnClickListener(new RecyclerView.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("BLARG");
-                ((MainActivity)getActivity()).startTabActivity();
-            }
-        });
+        recyclerView.setAdapter(adapter);;
         return view;
     }
 
-    private void initializeData() {
+    private void initializeData(JSONObject data) {
         posts = new ArrayList<>();
-        posts.add(new Post("good deal on shoes", "5", android.R.drawable.ic_menu_week));
-        posts.add(new Post("50% off stuff", "21", android.R.drawable.ic_dialog_map));
-        posts.add(new Post("free shipping at nordstrom", "0", android.R.drawable.ic_menu_save));
-        posts.add(new Post("good deal on shoes", "5", android.R.drawable.ic_menu_week));
-        posts.add(new Post("50% off stuff", "21", android.R.drawable.ic_dialog_map));
-        posts.add(new Post("free shipping at nordstrom", "0", android.R.drawable.ic_menu_save));
+        try {
+            JSONArray postData = data.getJSONArray("children");
+            for (int i = 0; i < postData.length(); i++) {
+                JSONObject post = postData.getJSONObject(i).getJSONObject("data");
+                String title = post.getString("title");
+                String comments = post.getString("num_comments");
+                String imgUrl;
+                if(post.has("preview")) {
+                    imgUrl = post.getJSONObject("preview")
+                            .getJSONArray("images")
+                            .getJSONObject(0)
+                            .getJSONObject("source")
+                            .getString("url");
+                }
+                else {
+                    imgUrl = post.getString("thumbnail");
+                }
+                System.out.println("url: "+imgUrl);
+                posts.add(new Post(title, comments, imgUrl));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

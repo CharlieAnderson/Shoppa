@@ -7,12 +7,12 @@ package com.example.charlesanderson.shoppa;
 public class Post {
     String title;
     String comments;
-    int drawableId;
+    String imgUrl;
 
-    Post(String title, String comments, int drawableId) {
+    Post(String title, String comments, String imgUrl) {
         this.title = title;
         this.comments = comments;
-        this.drawableId = drawableId;
+        this.imgUrl = imgUrl;
     }
 }
 

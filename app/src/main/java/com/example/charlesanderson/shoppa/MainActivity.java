@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,10 +39,22 @@ public class MainActivity extends AppCompatActivity {
     private static final String ACCESS_TOKEN_URL = "https://www.reddit.com/api/v1/access_token";
     private static final String TAG = "MainActivity";
 
+    private JSONObject jsonData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AsyncJSON asyncJSON =new AsyncJSON();
+        try {
+            String message = asyncJSON.execute().get();
+            processJSON(message);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         ListFragment fragment = new ListFragment();
         fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
-
     }
 
     @Override
@@ -147,9 +159,32 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void startTabActivity() {
+    public void startTabActivity(int position) {
         Intent intent = new Intent(this, TabActivity.class);
+        try {
+            intent.putExtra("data", jsonData.getJSONArray("children")
+                    .getJSONObject(position)
+                    .getJSONObject("data")
+                    .toString());
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
         startActivity(intent);
     }
 
+    public void processJSON(String message) {
+        System.out.println("start process finish");
+        try {
+            JSONObject Jobject = new JSONObject(message);
+            jsonData = Jobject.getJSONObject("data");
+        }
+        catch (Exception e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public JSONObject getJsonData() {
+        return jsonData;
+    }
 }

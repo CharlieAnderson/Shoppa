@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">Shoppa</string>
     <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Discussion">Discussion</string>
     <string name="Deals">Deals</string>
+    <string name="comments">\u0020 comments</string>
 </resources>

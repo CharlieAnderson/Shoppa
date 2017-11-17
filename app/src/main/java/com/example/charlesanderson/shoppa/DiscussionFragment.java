@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import java.util.concurrent.ExecutionException;
 public class DiscussionFragment extends Fragment {
 
     List<String> titleList;
-    AsyncJSON asyncJSON =new AsyncJSON();
 
     public DiscussionFragment() {
         // Required empty public constructor
@@ -36,9 +34,10 @@ public class DiscussionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_discussion, container, false);
         this.titleList = new ArrayList<>();
+        AsyncJSON asyncJSON = new AsyncJSON();
         try {
             String message = asyncJSON.execute().get();
-            processJSON(message);
+            getComments(((TabActivity)getActivity()).getJsonData());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -50,18 +49,10 @@ public class DiscussionFragment extends Fragment {
         return view;
     }
 
-    public void processJSON(String message) {
-        System.out.println("start process finish");
+    public void getComments(JSONObject post) {
         try {
-            JSONObject Jobject = new JSONObject(message);
-            JSONObject data = Jobject.getJSONObject("data");
-            JSONArray posts = data.getJSONArray("children");
-            for (int i = 0; i < posts.length(); i++) {
-                JSONObject post = posts.getJSONObject(i).getJSONObject("data");
-                String title = post.getString("title");
-                System.out.println("title: "+title);
-                titleList.add(title);
-            }
+            String title = post.getString("title");
+            titleList.add(title);
         }
         catch (Exception e) {
             System.out.println(e.toString());
