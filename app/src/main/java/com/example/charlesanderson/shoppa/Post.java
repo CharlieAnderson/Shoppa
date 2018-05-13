@@ -7,12 +7,12 @@ package com.example.charlesanderson.shoppa;
 public class Post {
     String title;
     String comments;
-    String imgUrl;
+    String url;
 
-    Post(String title, String comments, String imgUrl) {
+    Post(String title, String comments, String url) {
         this.title = title;
         this.comments = comments;
-        this.imgUrl = imgUrl;
+        this.url = url;
     }
 }
 

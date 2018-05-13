@@ -51,6 +51,8 @@ public class ListFragment extends Fragment {
                 String title = post.getString("title");
                 String comments = post.getString("num_comments");
                 String imgUrl;
+                String webViewUrl = post.getString("url");
+                /*
                 if(post.has("preview")) {
                     imgUrl = post.getJSONObject("preview")
                             .getJSONArray("images")
@@ -61,8 +63,9 @@ public class ListFragment extends Fragment {
                 else {
                     imgUrl = post.getString("thumbnail");
                 }
-                System.out.println("url: "+imgUrl);
-                posts.add(new Post(title, comments, imgUrl));
+                */
+                System.out.println("url: "+webViewUrl);
+                posts.add(new Post(title, comments, webViewUrl));
             }
         } catch (JSONException e) {
             e.printStackTrace();

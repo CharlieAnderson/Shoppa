@@ -2,12 +2,15 @@ package com.example.charlesanderson.shoppa;
 
 
 import android.app.ProgressDialog;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -33,25 +36,24 @@ public class DealFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_deal, container, false);
         WebView webView = (WebView)view.findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient());
-        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        webView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress) {
-                progressDialog.setMessage("Loading...");
-                progressDialog.setCancelable(false);
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.show();
-                if (progress == 100) {
-                    progressDialog.cancel();
-                } else {
-                    progressDialog.show();
-                }
-            }
-        });
+        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.getSettings().setJavaScriptEnabled(true);
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+
         JSONObject post = ((TabActivity)getActivity()).getJsonData();
         if(post.has("url")) {
             try {
-                webView.loadUrl(post.getString("url"));
+                final String url = post.getString("url");
+                webView.loadUrl(url);
+                FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                        CustomTabsIntent customTabsIntent = builder.build();
+                        customTabsIntent.launchUrl(getContext(), Uri.parse(url));
+                    }
+                });
             } catch(JSONException e) {
                 e.printStackTrace();
             }

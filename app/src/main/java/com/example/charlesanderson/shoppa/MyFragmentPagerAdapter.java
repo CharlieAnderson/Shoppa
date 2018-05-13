@@ -23,9 +23,9 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return new DiscussionFragment();
-        } else {
             return new DealFragment();
+        } else {
+            return new DiscussionFragment();
         }
     }
 
@@ -41,9 +41,9 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         // Generate title based on item position
         switch (position) {
             case 0:
-                return mContext.getString(R.string.Discussion);
-            case 1:
                 return mContext.getString(R.string.Deals);
+            case 1:
+                return mContext.getString(R.string.Discussion);
             default:
                 return null;
         }

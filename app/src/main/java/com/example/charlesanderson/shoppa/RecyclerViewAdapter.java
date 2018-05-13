@@ -6,10 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,8 +37,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.titleView.setText(posts.get(position).title);
         String commentsText = posts.get(position).comments+context.getString(R.string.comments);
         viewHolder.commentsView.setText(commentsText);
-        if(!posts.get(position).imgUrl.equals(""))
-            Picasso.with(context).load(posts.get(position).imgUrl).into(viewHolder.imageView);
+        viewHolder.webView.setWebViewClient(new WebViewClient());
+        viewHolder.webView.getSettings().setJavaScriptEnabled(true);
+        viewHolder.webView.loadUrl(posts.get(position).url);
+        viewHolder.webView.setEnabled(false);
     }
 
     @Override
@@ -56,14 +57,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         CardView cardView;
         TextView titleView;
         TextView commentsView;
-        ImageView imageView;
+        WebView webView;
 
         PostViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView)itemView.findViewById(R.id.cardView);
             titleView = (TextView)itemView.findViewById(R.id.titleView);
             commentsView = (TextView)itemView.findViewById(R.id.commentsView);
-            imageView = (ImageView)itemView.findViewById(R.id.imageView);
+            webView = (WebView)itemView.findViewById(R.id.webView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
