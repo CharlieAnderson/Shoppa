@@ -52,6 +52,7 @@ public class ListFragment extends Fragment {
                 String comments = post.getString("num_comments");
                 String imgUrl;
                 String webViewUrl = post.getString("url");
+                String commentsUrl = Constants.REDDIT_URL + post.getString("permalink");
                 /*
                 if(post.has("preview")) {
                     imgUrl = post.getJSONObject("preview")
@@ -65,7 +66,7 @@ public class ListFragment extends Fragment {
                 }
                 */
                 System.out.println("url: "+webViewUrl);
-                posts.add(new Post(title, comments, webViewUrl));
+                posts.add(new Post(title, comments, webViewUrl, commentsUrl));
             }
         } catch (JSONException e) {
             e.printStackTrace();

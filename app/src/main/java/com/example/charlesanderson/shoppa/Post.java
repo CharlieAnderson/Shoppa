@@ -8,11 +8,13 @@ public class Post {
     String title;
     String comments;
     String url;
+    String permalink;
 
-    Post(String title, String comments, String url) {
+    Post(String title, String comments, String url, String permalink) {
         this.title = title;
         this.comments = comments;
         this.url = url;
+        this.permalink = permalink;
     }
 }
 

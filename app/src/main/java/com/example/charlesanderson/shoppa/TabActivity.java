@@ -1,9 +1,10 @@
 package com.example.charlesanderson.shoppa;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,14 +23,6 @@ public class TabActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         try {
             Intent intent = getIntent();
@@ -42,6 +35,61 @@ public class TabActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         MyFragmentPagerAdapter fragmentPagerAdapter = new MyFragmentPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(fragmentPagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                JSONObject post = jsonData;
+                switch (position) {
+                    case 0:
+                        if (post.has("url")) {
+                            try {
+                                final String url = post.getString("url");
+                                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                                fab.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                                        CustomTabsIntent customTabsIntent = builder.build();
+                                        customTabsIntent.launchUrl(TabActivity.this, Uri.parse(url));
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        break;
+
+                    case 1:
+                        if (post.has("permalink")) {
+                            try {
+                                final String url = Constants.REDDIT_URL + post.getString("permalink");
+                                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                                fab.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                                        CustomTabsIntent customTabsIntent = builder.build();
+                                        customTabsIntent.launchUrl(TabActivity.this, Uri.parse(url));
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+
+                        }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
     }
