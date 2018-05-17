@@ -7,12 +7,14 @@ package com.example.charlesanderson.shoppa;
 public class Post {
     String title;
     String comments;
+    String imgUrl;
     String url;
     String permalink;
 
-    Post(String title, String comments, String url, String permalink) {
+    Post(String title, String comments, String imgUrl, String url, String permalink) {
         this.title = title;
         this.comments = comments;
+        this.imgUrl = imgUrl;
         this.url = url;
         this.permalink = permalink;
     }

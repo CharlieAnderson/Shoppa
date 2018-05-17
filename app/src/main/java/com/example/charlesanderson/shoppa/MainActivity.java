@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Shoppa");
 
         FragmentManager fragmentManager = this.getSupportFragmentManager();
-        ListFragment fragment = new ListFragment();
-        fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
+        ListFragment listFragment = new ListFragment();
+        fragmentManager.beginTransaction().add(R.id.fragment_container, listFragment).commit();
     }
 
     @Override

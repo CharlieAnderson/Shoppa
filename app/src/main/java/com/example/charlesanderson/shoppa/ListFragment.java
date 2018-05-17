@@ -1,14 +1,13 @@
 package com.example.charlesanderson.shoppa;
 
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +19,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends android.support.v4.app.Fragment {
 
     private List<Post> posts;
     public ListFragment() {
@@ -38,7 +37,7 @@ public class ListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(posts);
-        recyclerView.setAdapter(adapter);;
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
@@ -53,7 +52,6 @@ public class ListFragment extends Fragment {
                 String imgUrl;
                 String webViewUrl = post.getString("url");
                 String commentsUrl = Constants.REDDIT_URL + post.getString("permalink");
-                /*
                 if(post.has("preview")) {
                     imgUrl = post.getJSONObject("preview")
                             .getJSONArray("images")
@@ -64,9 +62,7 @@ public class ListFragment extends Fragment {
                 else {
                     imgUrl = post.getString("thumbnail");
                 }
-                */
-                System.out.println("url: "+webViewUrl);
-                posts.add(new Post(title, comments, webViewUrl, commentsUrl));
+                posts.add(new Post(title, comments, imgUrl, webViewUrl, commentsUrl));
             }
         } catch (JSONException e) {
             e.printStackTrace();

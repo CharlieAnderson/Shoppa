@@ -6,9 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,13 +35,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.PostViewHolder viewHolder, int position) {
-        viewHolder.titleView.setText(posts.get(position).title);
-        String commentsText = posts.get(position).comments+context.getString(R.string.comments);
+        Post post = posts.get(position);
+        viewHolder.titleView.setText(post.title);
+        String hostname = Utils.getHostname(post.url);
+        viewHolder.urlView.setText(hostname);
+        String commentsText = post.comments+context.getString(R.string.comments);
         viewHolder.commentsView.setText(commentsText);
-        viewHolder.webView.setWebViewClient(new WebViewClient());
-        viewHolder.webView.getSettings().setJavaScriptEnabled(true);
-        viewHolder.webView.loadUrl(posts.get(position).url);
-        viewHolder.webView.setEnabled(false);
+        Picasso.with(context).load(post.imgUrl).into(viewHolder.imageView);
     }
 
     @Override
@@ -56,15 +57,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView titleView;
+        TextView urlView;
         TextView commentsView;
-        WebView webView;
+        ImageView imageView;
 
         PostViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView)itemView.findViewById(R.id.cardView);
             titleView = (TextView)itemView.findViewById(R.id.titleView);
+            urlView = (TextView)itemView.findViewById(R.id.urlView);
             commentsView = (TextView)itemView.findViewById(R.id.commentsView);
-            webView = (WebView)itemView.findViewById(R.id.webView);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
