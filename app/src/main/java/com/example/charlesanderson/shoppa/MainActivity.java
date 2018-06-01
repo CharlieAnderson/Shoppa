@@ -2,6 +2,7 @@ package com.example.charlesanderson.shoppa;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String STATE = "MY_RANDOM_STRING_1";
     private static final String ACCESS_TOKEN_URL = "https://www.reddit.com/api/v1/access_token";
     private static final String TAG = "MainActivity";
+    private static final String FMF_SUB_URL = "https://www.reddit.com/r/frugalmalefashion/hot.api?limit=20";
 
     private JSONObject jsonData;
 
@@ -46,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AsyncJSON asyncJSON =new AsyncJSON();
+        AsyncJSON asyncJSON = new AsyncJSON();
         try {
-            String message = asyncJSON.execute().get();
+            String message = asyncJSON.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, FMF_SUB_URL).get();
             processJSON(message);
         } catch (InterruptedException e) {
             e.printStackTrace();

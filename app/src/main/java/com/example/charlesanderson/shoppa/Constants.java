@@ -7,9 +7,11 @@ package com.example.charlesanderson.shoppa;
 public final class Constants {
 
     public static final String REDDIT_URL = "https://reddit.com";
+    public static final String JSON_API_SUFFIX = ".json?";
 
     private Constants() {
         // restrict instantiation
     }
+
 
 }

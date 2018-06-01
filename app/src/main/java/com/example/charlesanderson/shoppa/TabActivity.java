@@ -1,14 +1,19 @@
 package com.example.charlesanderson.shoppa;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,6 +97,43 @@ public class TabActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
+    }
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
+    public void setCustomActionBar(String title) {
+        ActionBar ab = getSupportActionBar();
+        // Create a TextView programmatically.
+        TextView tv = new TextView(getApplicationContext());
+
+        // Create a LayoutParams for TextView
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, // Width of TextView
+                RelativeLayout.LayoutParams.WRAP_CONTENT); // Height of TextView
+
+        // Apply the layout parameters to TextView widget
+        tv.setLayoutParams(lp);
+
+        // Set text to display in TextView
+        tv.setText(ab.getTitle()); // ActionBar title text
+
+        // Set the text color of TextView to black
+        // This line change the ActionBar title text color
+        tv.setTextColor(Color.WHITE);
+
+        // Set the TextView text size in dp
+        // This will change the ActionBar title text size
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
+
+        // set title text
+        tv.setText(title);
+
+        // Set the ActionBar display option
+        ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+
+
+        // Finally, set the newly created TextView as ActionBar custom view
+        ab.setCustomView(tv);
     }
 
     public JSONObject getJsonData() {

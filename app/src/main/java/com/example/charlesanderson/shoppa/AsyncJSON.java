@@ -22,9 +22,10 @@ public class AsyncJSON extends AsyncTask<String, Void, String> {
     protected String doInBackground(String[] params) {
         // do above Server call here
         try {
+            String url = params[0];
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
-                    .url("https://www.reddit.com/r/frugalmalefashion/hot.api?limit=20")
+                    .url(url)
                     .build();
             Response responses = null;
             try {
